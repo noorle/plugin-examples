@@ -1,0 +1,15 @@
+package example:weather;
+
+world weather-component {
+    import wasi:cli/environment@0.2.7;
+
+    /// Check the current weather for a location
+    ///
+    /// # Arguments
+    /// * `location` - Location name (city name or 'City,CountryCode' format)
+    /// * `unit` - Temperature unit ("metric" for Celsius or "imperial" for Fahrenheit)
+    ///
+    /// # Returns
+    /// * `string` - JSON string containing weather information or error message
+    export check-weather: func(location: string, unit: string) -> string;
+}

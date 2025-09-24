@@ -1,0 +1,18 @@
+{
+  "name": "weather",
+  "version": "0.1.0",
+  "description": "Weather component for fetching current weather data (JavaScript)",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "build": "./build.sh",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@bytecodealliance/componentize-js": "0.19.1",
+    "@bytecodealliance/jco": "1.15.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
