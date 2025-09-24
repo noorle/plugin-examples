@@ -1,0 +1,50 @@
+# Build artifacts
+/dist
+*.wasm
+*.npack
+*.js.map
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+coverage/
+*.test.js
+*.spec.js
+*.test.ts
+*.spec.ts
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+temp/

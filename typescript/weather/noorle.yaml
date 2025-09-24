@@ -1,0 +1,39 @@
+# Noorle Plugin Configuration
+# This file is OPTIONAL - your plugin will work without it using sensible defaults
+
+schema_version: "1.0"
+
+# Uncomment and modify the sections you need:
+
+# metadata:
+#   name: weather
+#   version: "1.0.0"
+#   description: "What this plugin does"
+#   author: "Your Name"
+#   homepage: "https://github.com/you/weather"
+#   license: "MIT"
+#   tags:
+#     - utility
+#     - data-processing
+
+# runtime:
+#   version: "v2"  # Noorle Runtime version
+
+# permissions:
+#   # Network access - uncomment if you need to make HTTP requests
+#   network:
+#     allow:
+#       - host: "api.example.com"
+#         port: 443
+#         protocol: "https"
+#
+#   # Filesystem access - uncomment if you need file access
+#   # filesystem:
+#   #   read: ["/data"]
+#   #   write: ["/output"]
+#
+#   # Resource limits - uncomment to set limits
+#   # resources:
+#   #   limits:
+#   #     memory: "512Mi"
+#   #     cpu: "1000m"
