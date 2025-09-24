@@ -1,0 +1,14 @@
+package example:weather;
+
+world weather-component {
+    /// Check the current weather for a location
+    ///
+    /// # Arguments
+    /// * `location` - Location name (city name or 'City,CountryCode' format)
+    /// * `unit` - Temperature unit ("metric" for Celsius or "imperial" for Fahrenheit)
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: JSON string containing weather information
+    /// * Error: String describing what went wrong
+    export check-weather: func(location: string, unit: string) -> result<string, string>;
+}
