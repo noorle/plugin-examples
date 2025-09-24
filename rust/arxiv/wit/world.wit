@@ -1,0 +1,38 @@
+package example:arxiv;
+
+world arxiv-component {
+    /// Search for papers on arXiv
+    ///
+    /// Query the arXiv repository for academic papers matching the search criteria.
+    ///
+    /// # Arguments
+    /// * `query` - Search query string (e.g., "quantum computing", "machine learning")
+    /// * `max-results` - Maximum number of results to return (default: 10, max: 100)
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: JSON string containing array of paper metadata including:
+    ///   - paper_id: arXiv identifier
+    ///   - title: Paper title
+    ///   - authors: List of authors
+    ///   - abstract_text: Paper abstract
+    ///   - url: Web URL to paper page
+    ///   - pdf_url: Direct PDF download URL
+    ///   - published_date: Publication date
+    ///   - categories: arXiv categories
+    /// * Error: String describing what went wrong
+    export search: func(query: string, max-results: u32) -> result<string, string>;
+
+    /// Download a PDF paper from arXiv
+    ///
+    /// Downloads the PDF file for a specified arXiv paper and saves it to disk.
+    ///
+    /// # Arguments
+    /// * `paper-id` - The arXiv paper ID (e.g., "2301.08727" or "quant-ph/0001087")
+    /// * `save-path` - Directory path to save the PDF (default: "/tmp")
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: JSON string with download result:
+    ///   - {"success": true, "file_path": "/path/to/file.pdf"}
+    /// * Error: String describing what went wrong
+    export download-pdf: func(paper-id: string, save-path: string) -> result<string, string>;
+}

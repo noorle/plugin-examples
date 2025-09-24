@@ -1,0 +1,22 @@
+schema_version: "1.0"
+
+metadata:
+  name: arxiv
+  version: "1.0.0"
+  description: "arXiv paper search and PDF download plugin for Noorle"
+  tags:
+    - research
+    - academic
+    - pdf
+
+permissions:
+  network:
+    allow:
+      - host: "export.arxiv.org"  # For API queries
+      - host: "arxiv.org"         # For PDF downloads
+  filesystem:
+    write:
+      - path: "/tmp"              # Default download location for PDFs
+  resources:
+    limits:
+      memory: "512Mi"
