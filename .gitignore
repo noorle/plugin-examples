@@ -1,0 +1,44 @@
+# Rust
+/target/
+*/target/
+**/*.rs.bk
+*.pdb
+
+# Build artifacts
+*/dist/
+*/build/
+*.wasm
+*.npack
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+package-lock.json
+yarn.lock
+
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+.zed/
+.claude/
+*.swp
+*.swo
+*~
+CLAUDE.md
+
+# Logs
+*.log
