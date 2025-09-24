@@ -1,0 +1,21 @@
+# Noorle plugin configuration
+schema_version: "1.0"
+
+metadata:
+  name: weather
+  description: "Weather information plugin using OpenWeatherMap API"
+  author: "Noorle Team"
+  tags:
+    - weather
+    - api
+    - utility
+
+runtime: "v2"  # WASI Preview 2
+
+permissions:
+  network:
+    allow:
+      - host: "api.openweathermap.org"  # OpenWeatherMap API endpoint
+  environment:
+    allow:
+      - key: OPENWEATHER_API_KEY  # Required API key for OpenWeatherMap
