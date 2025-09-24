@@ -1,0 +1,50 @@
+package example:exchange-rate;
+
+world exchange-rate-component {
+    /// Get current exchange rates for a base currency
+    ///
+    /// Retrieves exchange rates for a specified base currency against other currencies.
+    /// Can optionally filter to specific target currencies.
+    ///
+    /// # Arguments
+    /// * `base-currency` - Base currency code (e.g., "usd", "eur", "gbp")
+    /// * `target-currencies` - Optional comma-separated list of target currencies to filter results
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: JSON string containing exchange rate data:
+    ///   - base_currency: The base currency code
+    ///   - rates: Object mapping currency codes to exchange rates
+    ///   - last_updated: Date when rates were last updated
+    /// * Error: String describing what went wrong
+    export get-exchange-rates: func(base-currency: string, target-currencies: string) -> result<string, string>;
+
+    /// Convert an amount from one currency to another
+    ///
+    /// Converts a monetary amount from one currency to another using current exchange rates.
+    ///
+    /// # Arguments
+    /// * `from-currency` - Source currency code (e.g., "usd", "eur", "gbp")
+    /// * `to-currency` - Target currency code (e.g., "usd", "eur", "gbp")
+    /// * `amount` - Amount to convert
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: JSON string containing conversion result:
+    ///   - from_currency: Source currency code
+    ///   - to_currency: Target currency code
+    ///   - amount: Original amount
+    ///   - converted_amount: Converted amount
+    ///   - exchange_rate: Exchange rate used
+    ///   - last_updated: Date when rate was last updated
+    /// * Error: String describing what went wrong
+    export convert-currency: func(from-currency: string, to-currency: string, amount: f64) -> result<string, string>;
+
+    /// List all supported currencies
+    ///
+    /// Retrieves a list of all available currencies with their codes and full names.
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: JSON string containing supported currencies:
+    ///   - currencies: Object mapping currency codes to currency names
+    /// * Error: String describing what went wrong
+    export list-currencies: func() -> result<string, string>;
+}

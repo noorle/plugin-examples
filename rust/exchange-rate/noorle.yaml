@@ -1,0 +1,19 @@
+schema_version: "1.0"
+
+metadata:
+  name: exchange-rate
+  version: "1.0.0"
+  description: "Exchange rate lookup and currency conversion plugin for Noorle"
+  tags:
+    - finance
+    - currency
+    - exchange-rates
+
+permissions:
+  network:
+    allow:
+      - host: "cdn.jsdelivr.net"           # Primary API endpoint
+      - host: "latest.currency-api.pages.dev" # Fallback API endpoint
+  resources:
+    limits:
+      memory: "256Mi"
