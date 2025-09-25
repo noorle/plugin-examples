@@ -84,12 +84,14 @@ noorle plugin deploy
 ```bash
 # Test with metric units
 wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_api_key_here \
-  --invoke 'check-weather("Austin", "metric")' dist/plugin.wasm
+  --invoke 'check-weather("Austin", metric)' dist/plugin.wasm
 
 # Test with imperial units
 wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_api_key_here \
-  --invoke 'check-weather("Austin", "imperial")' dist/plugin.wasm
+  --invoke 'check-weather("Austin", imperial)' dist/plugin.wasm
 ```
+
+**Note:** The `unit` parameter (metric/imperial) is an enum type and should be passed without quotes in the wasmtime invoke command. This differs from string parameters which require quotes.
 
 ### Environment Setup
 ```bash
@@ -132,16 +134,30 @@ urlencoding = "2.1"       # URL encoding for API parameters
 
 ## API Reference
 
-### `check-weather(location: string, unit: string) -> result<string, string>`
+### `check-weather(location: string, unit: unit) -> result<weather-response, string>`
 
 Fetches current weather information for a specified location.
 
 **Parameters:**
 - `location`: City name or "City,CountryCode" format (e.g., "Austin", "London,UK")
-- `unit`: Temperature unit - "metric" (Celsius) or "imperial" (Fahrenheit)
+- `unit`: Temperature unit enum - `metric` (Celsius) or `imperial` (Fahrenheit)
 
 **Returns:**
-Success: JSON string containing weather data:
+Success: `weather-response` record containing:
+```
+record weather-response {
+  location: string,
+  temperature: f64,
+  feels-like-temperature: f64,
+  wind-speed: option<f64>,
+  wind-degrees: option<u32>,
+  humidity: option<u32>,
+  unit: unit,
+  weather-conditions: list<string>
+}
+```
+
+Example output:
 ```json
 {
   "location": "Austin",
