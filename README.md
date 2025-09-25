@@ -35,7 +35,7 @@ Each example includes comprehensive documentation, local testing instructions, a
 Get real-time weather information from OpenWeatherMap API.
 
 **Available in 5 languages:**
-- [**Rust**](rust/weather/) - High-performance with `waki` HTTP client
+- [**Rust**](rust/weather/) - High-performance with `waki` HTTP client, demonstrates returning complex non-primitive record types
 - [**Go**](go/weather/) - TinyGo compilation with WASI HTTP bindings
 - [**Python**](python/weather/) - Direct WASI bindings with `componentize-py`
 - [**JavaScript**](javascript/weather/) - Native `fetch()` API with ComponentizeJS
@@ -46,6 +46,7 @@ Get real-time weather information from OpenWeatherMap API.
 - Supports metric and imperial units
 - Secure API key management via environment variables
 - Robust error handling for network failures
+- Returns complex weather response with nested fields (temperature, wind, conditions)
 
 ### 💱 Exchange Rate Plugin
 Real-time currency conversion and exchange rate information.
@@ -59,6 +60,19 @@ Real-time currency conversion and exchange rate information.
 - List all supported currencies
 - Automatic fallback to secondary API if primary fails
 - No API key required - uses free currency data sources
+
+### ✈️ Amadeus Flight Plugin
+Search for flight offers and travel information using the Amadeus API.
+
+**Available in:**
+- [**Go**](go/amadeus-flight/) - TinyGo implementation demonstrating complex non-primitive record type inputs
+
+**Features:**
+- Search for flight offers between cities
+- Accepts complex search parameters (origin, destination, dates, passengers)
+- Demonstrates handling of nested input structures in WASI components
+- Secure API credential management via environment variables
+- Returns detailed flight information including prices and segments
 
 ### 📚 ArXiv Plugin
 Search and download academic papers from arXiv repository.
@@ -187,9 +201,9 @@ This runs the template's `build.sh` script which:
 
 6. Test locally:
 ```bash
-# Example for weather plugin
+# Example for rust weather plugin (Rust version)
 wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_key \
-  --invoke 'check-weather("Austin", "metric")' dist/plugin.wasm
+  --invoke 'check-weather("Austin", metric)' dist/plugin.wasm
 ```
 
 7. Deploy to Noorle:
