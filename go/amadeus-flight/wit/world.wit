@@ -1,0 +1,48 @@
+package example:amadeus-flight;
+
+world amadeus-flight-component {
+    include wasi:cli/imports@0.2.7;
+    import wasi:http/outgoing-handler@0.2.7;
+
+    /// Flight search parameters
+    record flight-search-params {
+        /// Origin airport/city IATA code (e.g., "BOS" for Boston)
+        origin-location-code: string,
+        /// Destination airport/city IATA code (e.g., "PAR" for Paris)
+        destination-location-code: string,
+        /// Departure date in ISO 8601 YYYY-MM-DD format
+        departure-date: string,
+        /// Number of adult travelers (age 12+)
+        adults: u32,
+
+        /// Optional return date for round-trip flights
+        return-date: option<string>,
+        /// Number of child travelers (age 2-11)
+        children: option<u32>,
+        /// Number of infant travelers (age under 2)
+        infants: option<u32>,
+        /// Preferred travel class (economy, premium-economy, business, first)
+        travel-class: option<string>,
+        /// Restrict to specific airlines (comma-separated IATA codes)
+        included-airline-codes: option<string>,
+        /// Exclude specific airlines (comma-separated IATA codes)
+        excluded-airline-codes: option<string>,
+        /// Only show non-stop flights
+        non-stop: option<bool>,
+        /// Preferred currency code (default: USD)
+        currency-code: option<string>,
+        /// Maximum price per traveler
+        max-price: option<u32>,
+        /// Maximum number of offers to return (1-250, default: 10)
+        max-results: option<u32>,
+    }
+
+    /// Search for flight offers using Amadeus API
+    ///
+    /// # Arguments
+    /// * `params` - Flight search parameters
+    ///
+    /// # Returns
+    /// * `string` - JSON string containing flight offers or error
+    export search-flights: func(params: flight-search-params) -> string;
+}

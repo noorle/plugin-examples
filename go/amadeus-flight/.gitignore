@@ -1,0 +1,50 @@
+# Build artifacts
+/dist
+*.wasm
+*.npack
+/gen
+
+# Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.sum
+
+# WIT/WKG
+wkg.lock
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+coverage.txt
+coverage.html
+*.prof
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+temp/
+
+# Debug files
+debug
+debug.test

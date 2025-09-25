@@ -1,0 +1,19 @@
+schema_version: "1.0"
+
+metadata:
+  name: amadeus-flight
+  version: "1.0.0"
+  description: "Search flight offers using Amadeus Travel API"
+
+permissions:
+  network:
+    allow:
+      - host: "api.amadeus.com"
+      - host: "test.api.amadeus.com"
+
+environment:
+  required:
+    - AMADEUS_API_KEY
+    - AMADEUS_API_SECRET
+  optional:
+    - AMADEUS_BASE_URL
