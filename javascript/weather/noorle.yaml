@@ -10,7 +10,7 @@ metadata:
     - api
     - utility
 
-runtime: "v2"  # WASI Preview 2
+runtime: "v2"
 
 permissions:
   network:
