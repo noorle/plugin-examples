@@ -1,14 +1,32 @@
 package example:weather;
 
 world weather-component {
+    /// Temperature unit
+    enum unit {
+        metric,
+        imperial,
+    }
+
+    /// Weather information
+    record weather-response {
+        location: string,
+        temperature: f64,
+        feels-like-temperature: f64,
+        wind-speed: option<f64>,
+        wind-degrees: option<u32>,
+        humidity: option<u32>,
+        unit: unit,
+        weather-conditions: list<string>,
+    }
+
     /// Check the current weather for a location
     ///
     /// # Arguments
     /// * `location` - Location name (city name or 'City,CountryCode' format)
-    /// * `unit` - Temperature unit ("metric" for Celsius or "imperial" for Fahrenheit)
+    /// * `unit` - Temperature unit
     ///
     /// # Returns
-    /// * `result<string, string>` - Success: JSON string containing weather information
+    /// * `result<weather-response, string>` - Success: Weather information
     /// * Error: String describing what went wrong
-    export check-weather: func(location: string, unit: string) -> result<string, string>;
+    export check-weather: func(location: string, unit: unit) -> result<weather-response, string>;
 }
