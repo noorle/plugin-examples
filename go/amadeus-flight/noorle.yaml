@@ -10,10 +10,8 @@ permissions:
     allow:
       - host: "api.amadeus.com"
       - host: "test.api.amadeus.com"
-
-environment:
-  required:
-    - AMADEUS_API_KEY
-    - AMADEUS_API_SECRET
-  optional:
-    - AMADEUS_BASE_URL
+  environment:
+    allow:
+      - key: AMADEUS_API_KEY
+      - key: AMADEUS_API_SECRET
+      - key: AMADEUS_HOST
