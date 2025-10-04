@@ -6,7 +6,7 @@ platform plugins using the WebAssembly Component Model and WASI 0.2.
 ## 🎯 What This Repository Offers
 
 This repository provides working examples of Noorle plugins that showcase:
-- **HTTP API Integration** - Real-world examples using OpenWeatherMap, arXiv, and Exchange Rate APIs
+- **HTTP API Integration** - Real-world examples using OpenWeatherMap, NewsAPI, arXiv, and Exchange Rate APIs
 - **Multi-Language Support** - Implementations in Rust, Go, Python, JavaScript, and TypeScript
 - **WASI 0.2 Patterns** - Modern WebAssembly System Interface usage for secure, sandboxed execution
 - **Component Model** - Type-safe, language-agnostic plugin interfaces using WIT
@@ -47,6 +47,19 @@ Get real-time weather information from OpenWeatherMap API.
 - Secure API key management via environment variables
 - Robust error handling for network failures
 - Returns complex weather response with nested fields (temperature, wind, conditions)
+
+### 📰 News Plugin
+Search worldwide news articles and breaking headlines using NewsAPI.org.
+
+**Available in:**
+- [**Rust**](rust/news/) - NewsAPI.org integration with structured record types
+
+**Features:**
+- Search news articles by keywords or topics
+- Returns structured article data (title, description, URL, source)
+- Demonstrates complex record types with nested structures
+- Rate limit and authentication error handling
+- Secure API key management via environment variables
 
 ### 💱 Exchange Rate Plugin
 Real-time currency conversion and exchange rate information.
@@ -319,10 +332,11 @@ language/plugin-name/
 
 ## Learning Path
 
-1. **Start with Weather Plugin**: Learn HTTP integration and basic patterns
-2. **Explore Exchange Rate**: Understand fallback strategies and data caching
-3. **Study ArXiv Plugin**: Master feed parsing and binary file handling
-4. **Compare Languages**: See how different languages approach the same problem
+1. **Start with Weather Plugin**: Learn HTTP integration and basic patterns with complex record types
+2. **Try News Plugin**: Understand NewsAPI integration, rate limiting, and structured data handling
+3. **Explore Exchange Rate**: Understand fallback strategies and data caching
+4. **Study ArXiv Plugin**: Master feed parsing and binary file handling
+5. **Compare Languages**: See how different languages approach the same problem
 
 ## Best Practices
 
