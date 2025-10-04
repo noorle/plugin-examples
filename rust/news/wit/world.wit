@@ -1,0 +1,42 @@
+package noorle:news;
+
+world news-component {
+    /// News source information
+    record source {
+        /// Name of the news publication or website
+        name: option<string>,
+    }
+
+    /// A news article with metadata
+    record article {
+        /// The headline or title of the news article
+        title: option<string>,
+        /// A brief summary or excerpt from the article
+        description: option<string>,
+        /// The full URL to the original news article
+        url: option<string>,
+        /// Information about the news source that published the article
+        source: option<source>,
+    }
+
+    /// Response containing news articles
+    record news-response {
+        /// List of news articles matching the search criteria
+        articles: list<article>,
+    }
+
+    /// Search for news articles
+    ///
+    /// Searches worldwide news articles and breaking news headlines using NewsAPI.org.
+    /// Returns articles matching the search query with metadata including title, description,
+    /// source, and URL.
+    ///
+    /// # Arguments
+    /// * `query` - Search query for news articles. Can include keywords, phrases, or topics.
+    ///             Examples: "artificial intelligence", "climate change", "technology"
+    ///
+    /// # Returns
+    /// * `result<news-response, string>` - Success: Structured news response with articles
+    /// * Error: String describing what went wrong (e.g., API key missing, network error, rate limit)
+    export search-news: func(query: string) -> result<news-response, string>;
+}

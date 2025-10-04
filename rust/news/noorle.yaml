@@ -1,0 +1,22 @@
+# Noorle plugin configuration
+schema_version: "1.0"
+
+metadata:
+  name: news
+  description: "News search plugin using NewsAPI.org for worldwide news articles and breaking headlines"
+  author: "Noorle Team"
+  tags:
+    - news
+    - api
+    - search
+    - current-events
+
+runtime: "v2"
+
+permissions:
+  network:
+    allow:
+      - host: "newsapi.org"  # NewsAPI.org endpoint
+  environment:
+    allow:
+      - key: NEWSAPI_API_KEY  # Required API key for NewsAPI.org
