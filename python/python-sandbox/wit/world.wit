@@ -1,0 +1,41 @@
+package noorle:python-sandbox;
+
+world python-sandbox-component {
+    /// Execute Python code and capture output
+    ///
+    /// Executes arbitrary Python statements in a sandboxed environment.
+    /// Captures and returns stdout/stderr output. This is useful for running
+    /// Python scripts and seeing their output.
+    ///
+    /// # Arguments
+    /// * `statements` - Python code to execute (can be multiple statements)
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: Captured stdout/stderr output
+    /// * Error: String describing what went wrong (e.g., SyntaxError, RuntimeError)
+    ///
+    /// # Example
+    /// Input: "print('Hello, World!')\nfor i in range(3):\n    print(i)"
+    /// Output: "Hello, World!\n0\n1\n2\n"
+    export exec: func(statements: string) -> result<string, string>;
+
+    /// Evaluate a Python expression and return the result
+    ///
+    /// Evaluates a single Python expression and returns the result as a JSON string.
+    /// This is useful for calculations, data transformations, and quick evaluations.
+    ///
+    /// # Arguments
+    /// * `expression` - Python expression to evaluate (single expression only)
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: JSON-serialized result of the expression
+    /// * Error: String describing what went wrong (e.g., SyntaxError, NameError)
+    ///
+    /// # Example
+    /// Input: "2 + 2"
+    /// Output: "4"
+    ///
+    /// Input: "[x**2 for x in range(5)]"
+    /// Output: "[0, 1, 4, 9, 16]"
+    export eval: func(expression: string) -> result<string, string>;
+}

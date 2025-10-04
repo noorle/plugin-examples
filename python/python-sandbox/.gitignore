@@ -1,0 +1,52 @@
+# Build artifacts
+/dist
+*.wasm
+*.npack
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# uv files
+uv.lock
+
+# Generated bindings
+wit_world/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+test*.py
+test*.sh
+
+# Logs
+*.log
+pip-log.txt
+
+# Temporary files
+*.tmp
+*.bak
+temp/
