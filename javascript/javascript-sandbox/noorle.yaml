@@ -1,0 +1,18 @@
+# Noorle plugin configuration
+schema_version: "1.0"
+
+metadata:
+  name: javascript-sandbox
+  description: "JavaScript code execution sandbox - safely execute JavaScript statements and evaluate expressions"
+  author: "Noorle Team"
+  tags:
+    - javascript
+    - sandbox
+    - code-execution
+    - eval
+
+runtime: "v2"
+
+# No special permissions needed - this is a pure computation sandbox
+# No network access, no file system access, no environment variables
+permissions: {}

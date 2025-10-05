@@ -1,0 +1,41 @@
+package noorle:javascript-sandbox;
+
+world javascript-sandbox-component {
+    /// Execute JavaScript code and capture output
+    ///
+    /// Executes arbitrary JavaScript statements in a sandboxed environment.
+    /// Captures and returns console output. This is useful for running
+    /// JavaScript code and seeing its output.
+    ///
+    /// # Arguments
+    /// * `statements` - JavaScript code to execute (can be multiple statements)
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: Captured console output
+    /// * Error: String describing what went wrong (e.g., SyntaxError, ReferenceError)
+    ///
+    /// # Example
+    /// Input: "console.log('Hello, World!');\nfor (let i = 0; i < 3; i++) console.log(i);"
+    /// Output: "Hello, World!\n0\n1\n2\n"
+    export exec-code: func(statements: string) -> result<string, string>;
+
+    /// Evaluate a JavaScript expression and return the result
+    ///
+    /// Evaluates a single JavaScript expression and returns the result as a JSON string.
+    /// This is useful for calculations, data transformations, and quick evaluations.
+    ///
+    /// # Arguments
+    /// * `expression` - JavaScript expression to evaluate (single expression only)
+    ///
+    /// # Returns
+    /// * `result<string, string>` - Success: JSON-serialized result of the expression
+    /// * Error: String describing what went wrong (e.g., SyntaxError, ReferenceError)
+    ///
+    /// # Example
+    /// Input: "2 + 2"
+    /// Output: "4"
+    ///
+    /// Input: "[1, 2, 3].map(x => x ** 2)"
+    /// Output: "[1, 4, 9]"
+    export eval-expr: func(expression: string) -> result<string, string>;
+}
