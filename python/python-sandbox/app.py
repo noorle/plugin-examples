@@ -14,6 +14,10 @@ import json
 import wit_world
 from wit_world.types import Err
 
+# Import additional stdlib modules to bundle them into WASM
+# Just add .py files to additional_modules/ directory and rebuild!
+import additional_modules
+
 
 def handle_exception(e: Exception) -> Err[str]:
     """
