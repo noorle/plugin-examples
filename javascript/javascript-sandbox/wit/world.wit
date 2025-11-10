@@ -1,11 +1,22 @@
 package noorle:javascript-sandbox;
 
 world javascript-sandbox-component {
+    // Import WASI I/O interfaces (required by filesystem)
+    import wasi:io/streams@0.2.7;
+    import wasi:io/error@0.2.7;
+
+    // Import WASI filesystem for real file access within preopened directories
+    import wasi:filesystem/types@0.2.7;
+    import wasi:filesystem/preopens@0.2.7;
+
     /// Execute JavaScript code and capture output
     ///
     /// Executes arbitrary JavaScript statements in a sandboxed environment.
     /// Captures and returns console output. This is useful for running
     /// JavaScript code and seeing its output.
+    ///
+    /// The executed code has access to a global `fs` object that provides
+    /// Node.js-compatible filesystem operations within preopened directories.
     ///
     /// # Arguments
     /// * `statements` - JavaScript code to execute (can be multiple statements)
@@ -17,12 +28,17 @@ world javascript-sandbox-component {
     /// # Example
     /// Input: "console.log('Hello, World!');\nfor (let i = 0; i < 3; i++) console.log(i);"
     /// Output: "Hello, World!\n0\n1\n2\n"
+    ///
+    /// Input: "fs.writeFileSync('test.txt', 'Hello'); console.log('written');"
+    /// Output: "written\n"
     export exec-code: func(statements: string) -> result<string, string>;
 
     /// Evaluate a JavaScript expression and return the result
     ///
     /// Evaluates a single JavaScript expression and returns the result as a JSON string.
     /// This is useful for calculations, data transformations, and quick evaluations.
+    ///
+    /// The expression has access to a global `fs` object for filesystem operations.
     ///
     /// # Arguments
     /// * `expression` - JavaScript expression to evaluate (single expression only)
@@ -37,5 +53,8 @@ world javascript-sandbox-component {
     ///
     /// Input: "[1, 2, 3].map(x => x ** 2)"
     /// Output: "[1, 4, 9]"
+    ///
+    /// Input: "fs.readdirSync('.')"
+    /// Output: "[\"file1.txt\",\"file2.txt\"]"
     export eval-expr: func(expression: string) -> result<string, string>;
 }
