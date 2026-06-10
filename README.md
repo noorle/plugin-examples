@@ -1,7 +1,11 @@
 # Noorle Plugin Examples
 
-A comprehensive collection of production-ready WebAssembly plugin examples demonstrating real-world patterns for building Noorle
-platform plugins using the WebAssembly Component Model and WASI 0.2.
+A comprehensive collection of WebAssembly plugin examples demonstrating real-world patterns for building [Noorle](https://noorle.com/) platform plugins using the WebAssembly Component Model and WASI 0.2. Functions you export become MCP tools automatically — no configuration needed.
+
+- 🧩 [Plugin development docs](https://noorle.com/docs/build/)
+- 🔌 [How MCP gateways work](https://noorle.com/platform/mcp-gateways/)
+- 🚀 [Five-minute quickstart](https://noorle.com/docs/use/five-minute-quickstart)
+- ⌨️ [Noorle CLI](https://github.com/noorle/cli-releases)
 
 ## 🎯 What This Repository Offers
 
