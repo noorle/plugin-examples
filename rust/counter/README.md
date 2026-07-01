@@ -11,6 +11,12 @@ within the same session (backed by the host's per-session key-value store)
 and is independent per `name`, so a single session can track several
 counters (e.g. `"requests"`, `"errors"`) without them colliding.
 
+All counters in this example share one store — `store::open("counters")` is
+called on every `increment`, and it's `name` (not the store identifier) that
+picks which counter you're reading/writing. A real plugin with genuinely
+separate namespaces (e.g. per-tenant data) would `open` a different
+identifier per namespace instead.
+
 ## Why this example exists
 
 Most examples in this repo show request/response plugins with no memory

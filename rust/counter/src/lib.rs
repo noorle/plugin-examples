@@ -1,16 +1,23 @@
 wit_bindgen::generate!({
     world: "counter-component",
     path: "./wit",
-    generate_all,
+    with: {
+        "wasi:keyvalue/store@0.2.0-draft": generate,
+    },
 });
 
 use wasi::keyvalue::store;
 
 struct Counter;
 
+/// All counters share this one store, and are distinguished from each other
+/// only by the `name` key passed to `increment` — `open`'s identifier picks
+/// which store/bucket to use, not which counter within it.
+const STORE: &str = "counters";
+
 impl Guest for Counter {
     fn increment(name: String) -> Result<u32, String> {
-        let bucket = store::open("").map_err(|e| format!("open failed: {e:?}"))?;
+        let bucket = store::open(STORE).map_err(|e| format!("open failed: {e:?}"))?;
 
         let current = bucket
             .get(&name)

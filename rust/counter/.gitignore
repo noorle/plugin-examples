@@ -1,7 +1,8 @@
 # Rust build artifacts
 debug/
 target/
-Cargo.lock
+# Cargo.lock is committed (not ignored) — a plugin is an application, not a
+# library, so pinning the exact resolved versions gives reproducible builds.
 
 # Plugin build outputs
 dist/
