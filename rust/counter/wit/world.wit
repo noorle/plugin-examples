@@ -1,0 +1,24 @@
+package example:counter;
+
+world counter-component {
+    /// Per-session persistent state, backed by the host's `wasi:keyvalue`
+    /// implementation. Not every WASI host implements this interface; this
+    /// example exists specifically to demonstrate it.
+    import wasi:keyvalue/store@0.2.0-draft;
+
+    /// Increment the named counter and return its new value.
+    ///
+    /// The counter persists across calls within the same session (backed by
+    /// the host's per-session key-value store) but is independent per
+    /// `name`, so a single plugin session can track several counters.
+    ///
+    /// # Arguments
+    /// * `name` - Counter identifier (e.g. "requests", "errors")
+    ///
+    /// # Returns
+    /// * `result<u32, string>` - Success: the counter's new value after
+    ///   incrementing (starts at 1 the first time a `name` is used)
+    /// * Error: string describing what went wrong (host store unavailable,
+    ///   corrupt stored value, etc.)
+    export increment: func(name: string) -> result<u32, string>;
+}
