@@ -1,0 +1,15 @@
+# Noorle plugin configuration
+schema_version: "1.0"
+
+metadata:
+  name: counter
+  description: "Demonstrates wasi:keyvalue/store — a per-session persistent counter"
+  author: "Noorle Team"
+  tags:
+    - example
+    - state
+    - keyvalue
+
+runtime: "v2"
+
+permissions: {}
