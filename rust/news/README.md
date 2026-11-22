@@ -40,35 +40,37 @@ This news plugin showcases real-world patterns for building media-driven Noorle 
 ## Development & Testing
 
 ### Build and Deploy
+
+Get an API key from [NewsAPI.org](https://newsapi.org). Keep real keys out of the project-root `.env`: `noorle plugin build` includes that file in the `.npack` if it exists. If you previously built with a real key there, move the file out of the project, rebuild, and do not upload or share the old archive. Rotate the key if you already uploaded or shared an archive containing it.
+
 ```bash
 # Build the plugin (creates WASM component)
 noorle plugin build
 
-# Deploy to Noorle platform
+# Sign in to Noorle
+noorle login
+
+# Deploy the freshly built archive
 noorle plugin deploy
 ```
 
+Check that the archive path printed by the build is the only `.npack` in `dist/` before deploying; the CLI picks the first archive it finds there. You can inspect its contents with `tar -tzf`, passing the printed archive path. The archive should not contain `.env` for this example.
+
+After publishing, open **Portal → Plugins → your plugin → Versions → Edit configuration → Environment variables**. Set the write-only value for `NEWSAPI_API_KEY` and save before invoking the hosted plugin. The `noorle.yaml` allowlist lets the guest read the key; it does not set its value.
+
 ### Local Testing with wasmtime
+
+Load `NEWSAPI_API_KEY` into your shell from your secret manager before running these examples. Do not put it in the plugin directory or paste its value into the command.
+
 ```bash
 # Test news search
-wasmtime run --wasi http --env NEWSAPI_API_KEY=your_api_key_here \
+wasmtime run --wasi http --env "NEWSAPI_API_KEY=$NEWSAPI_API_KEY" \
   --invoke 'search-news("artificial intelligence")' dist/plugin.wasm
 
 # Search for specific topics
-wasmtime run --wasi http --env NEWSAPI_API_KEY=your_api_key_here \
+wasmtime run --wasi http --env "NEWSAPI_API_KEY=$NEWSAPI_API_KEY" \
   --invoke 'search-news("climate change")' dist/plugin.wasm
 ```
-
-### Environment Setup
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Add your NewsAPI.org API key
-echo "NEWSAPI_API_KEY=your_actual_api_key" > .env
-```
-
-Get your free API key from [NewsAPI.org](https://newsapi.org).
 
 ## Project Structure
 
