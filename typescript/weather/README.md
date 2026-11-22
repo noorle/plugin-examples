@@ -168,7 +168,7 @@ Fetches current weather information for a specified location.
 - `unit`: Temperature unit - "metric" (Celsius) or "imperial" (Fahrenheit)
 
 **Returns:**
-JSON string containing weather data or error:
+At the WIT boundary, both success and failure return a JSON-encoded `string`. The TypeScript implementation is asynchronous (`Promise<string>`), but there is no separate WIT `result` variant. A failure puts its message in the `error` field.
 
 Success:
 ```json
