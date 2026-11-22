@@ -199,11 +199,7 @@ The `prepare` command runs the template's `prepare.sh` script which:
 - Configures your environment for WASM development
 - Ensures consistent tooling across all templates
 
-4. Configure environment variables (if needed):
-```bash
-cp .env.example .env
-# Add your API key to .env
-```
+4. Keep real API keys out of the project-root `.env`. The CLI packages that file when present. For the weather example, load `OPENWEATHER_API_KEY` into your shell from your secret manager for local testing, and configure it separately in the Portal for hosted use.
 
 5. Build the plugin:
 ```bash
@@ -219,7 +215,7 @@ This runs the template's `build.sh` script which:
 6. Test locally:
 ```bash
 # Example for rust weather plugin (Rust version)
-wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_key \
+wasmtime run --wasi http --env "OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY" \
   --invoke 'check-weather("Austin", metric)' dist/plugin.wasm
 ```
 
@@ -234,6 +230,8 @@ noorle plugin deploy
 # Or build and deploy in one step
 noorle plugin publish
 ```
+
+For the weather example, upload only a freshly built archive that does not contain `.env`. After publishing, set `OPENWEATHER_API_KEY` in **Portal → Plugins → your plugin → Versions → Edit configuration → Environment variables** before invoking it. See the [weather README](rust/weather/) for how to check the archive and replace a key previously packaged and shared.
 
 ## Noorle CLI Workflow
 
