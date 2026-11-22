@@ -64,9 +64,9 @@ async function getWeather(apiKey, params) {
 export async function checkWeather(location, unit) {
   try {
     const weather = await getWeather(apiKey, params);
-    return { ok: JSON.stringify(weather.toJSON()) };
+    return JSON.stringify(weather.toJSON());
   } catch (error) {
-    return { err: error.message };
+    return JSON.stringify({ error: error.message });
   }
 }
 ```
@@ -142,7 +142,7 @@ weather/
 
 ## API Reference
 
-### `check-weather(location: string, unit: string) -> result<string, string>`
+### `check-weather(location: string, unit: string) -> string`
 
 Fetches current weather information for a specified location.
 
@@ -165,7 +165,7 @@ Success: JSON string containing weather data:
 }
 ```
 
-Error: String describing what went wrong
+Error: JSON string containing an `error` field, for example `{"error":"Weather lookup failed"}`.
 
 ## Learning Outcomes
 
@@ -174,7 +174,7 @@ By studying this example, developers learn:
 1. **JavaScript in WASM**: How to use modern JavaScript in WASM components
 2. **Fetch API Patterns**: Making HTTP requests from sandboxed environments
 3. **Environment Configuration**: Secure handling of API keys and configuration
-4. **Error Handling**: Using Result types in JavaScript for robust error management
+4. **Error Handling**: Returning JSON error objects through a WIT string
 5. **Component Development**: Building reusable WASM components with JavaScript
 
 This example serves as a foundation for building any plugin that needs external API integration, from weather services to database connectors to AI model APIs.
