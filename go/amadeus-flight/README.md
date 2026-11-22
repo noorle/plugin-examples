@@ -1,62 +1,15 @@
-# Amadeus Flight Plugin (Go) - Noorle Example
+# Amadeus Flight Plugin (Go) - Historical Noorle Example
 
-A production-ready WebAssembly plugin for searching flight offers using the Amadeus Travel API, demonstrating complex data types, OAuth2 authentication, and real-world API integration with the Noorle platform.
+> [!NOTE]
+> [Amadeus retired its Self-Service developer portal](https://developers.amadeus.com/api-catalog). This example is preserved as a code reference, not as a runnable flight-search integration. It has not been adapted or verified for Amadeus Enterprise APIs.
 
-## Why This Example Matters
+The TinyGo guest demonstrates structured WIT records with optional fields, OAuth 2.0 client credentials, and sending a request body with WASI HTTP. Start with [`main.go`](main.go) for the guest implementation and [`wit/world.wit`](wit/world.wit) for the exported interface.
 
-This flight search plugin showcases advanced patterns for building production-ready Noorle plugins:
-
-- **Complex Data Types**: Demonstrates handling of structured records with multiple optional fields
-- **OAuth2 Authentication**: Shows secure token management with automatic refresh
-- **Real API Integration**: Production-ready integration with Amadeus Travel APIs
-- **WASI HTTP POST**: Proper implementation of POST requests with body in WASI
-- **Environment Configuration**: Fully configurable via environment variables
-- **Error Handling**: Robust patterns for network failures and API errors
-
-## Features
-
-- **Comprehensive Flight Search**: Search for one-way and round-trip flights
-- **Flexible Traveler Configuration**: Support for adults, children, and infants
-- **Travel Class Selection**: Economy, Premium Economy, Business, or First class
-- **Airline Filtering**: Include or exclude specific airlines
-- **Advanced Options**: Non-stop flights, currency selection, price limits
-- **OAuth2 Authentication**: Automatic token refresh with proper POST body handling
-
-## Getting Started
-
-### Obtain Free API Credentials
-
-Developers can register for **free self-service API access** at [https://developers.amadeus.com/](https://developers.amadeus.com/):
-
-1. Sign up for a free account
-2. Create a new app in the dashboard
-3. Get your API Key and API Secret
-4. Start with the test environment (free, with rate limits)
-5. Upgrade to production when ready
-
-The free tier includes access to the test environment with sample data, perfect for development and testing.
-
-## Environment Configuration
-
-All configuration is required via environment variables - no hardcoded values:
-
-```bash
-# Required - Amadeus API hostname (without https://)
-# Use test.api.amadeus.com for testing (free tier)
-# Use api.amadeus.com for production
-AMADEUS_HOST=test.api.amadeus.com
-
-# Required - Your Amadeus API credentials
-# Get them free from https://developers.amadeus.com
-AMADEUS_API_KEY=your_api_key_here
-AMADEUS_API_SECRET=your_api_secret_here
-```
-
-## API Reference
+## Historical API contract
 
 ### `search-flights(params: flight-search-params) -> string`
 
-Searches for flight offers using the Amadeus API with comprehensive filtering options.
+The export accepted a structured search request and returned flight offers from Amadeus Self-Service.
 
 **Required Parameters:**
 - `origin-location-code`: Origin airport/city IATA code (e.g., "JFK")
@@ -76,44 +29,21 @@ Searches for flight offers using the Amadeus API with comprehensive filtering op
 - `max-price`: Maximum price per traveler
 - `max-results`: Maximum number of offers (1-250, default: 10)
 
-**Returns:** JSON string with flight offers or error message
+**Returns:** A string containing JSON flight offers or an error message.
 
-## Building the Plugin
-
-```bash
-# Build the WASM component
-./build.sh
-
-# Output will be in dist/plugin.wasm (approximately 368K)
-```
-
-## Testing with wasmtime
-
-The plugin uses WAVE (WebAssembly Value Encoding) syntax for complex types:
+## Build the component
 
 ```bash
-# Basic one-way flight search
-wasmtime run --wasi http \
-  --env AMADEUS_HOST=test.api.amadeus.com \
-  --env AMADEUS_API_KEY=your_api_key \
-  --env AMADEUS_API_SECRET=your_api_secret \
-  --invoke 'search-flights({origin-location-code:"JFK",destination-location-code:"LAX",departure-date:"2025-12-20",adults:1})' \
-  dist/plugin.wasm
-
-# Round-trip with optional parameters
-wasmtime run --wasi http \
-  --env AMADEUS_HOST=test.api.amadeus.com \
-  --env AMADEUS_API_KEY=your_api_key \
-  --env AMADEUS_API_SECRET=your_api_secret \
-  --invoke 'search-flights({origin-location-code:"NYC",destination-location-code:"LON",departure-date:"2025-12-20",return-date:"2025-12-27",adults:2,children:1,travel-class:"business",non-stop:true,max-results:5})' \
-  dist/plugin.wasm
+bash ./build.sh
 ```
+
+This produces `dist/plugin.wasm`. A successful build does not verify a live API call.
 
 ## Implementation Highlights
 
 ### OAuth2 with WASI HTTP POST
 
-The plugin properly implements OAuth2 token refresh using WASI HTTP POST with body:
+The source shows how the guest requested an OAuth 2.0 access token using a WASI HTTP POST:
 
 ```go
 func refreshToken() error {
@@ -133,7 +63,7 @@ func refreshToken() error {
 
 ### WASI HTTP POST Body Implementation
 
-Proper resource management for POST requests in WASI:
+The guest wrote and flushed the request body, then released the stream before finishing the body:
 
 ```go
 // Write body for POST requests
@@ -167,22 +97,6 @@ if nonStop := params.NonStop.Some(); nonStop != nil {
 }
 ```
 
-## Project Structure
-
-```
-amadeus-flight/
-├── main.go              # Main implementation with OAuth2 and API calls
-├── wit/
-│   └── world.wit        # WIT interface with complex record types
-├── go.mod               # Go module (uses cm v0.3.0)
-├── build.sh             # Build script for TinyGo WASM compilation
-├── .env.example         # Environment variable template
-├── noorle.yaml          # Plugin permissions configuration
-├── gen/                 # Generated WIT bindings (created during build)
-└── dist/                # Build output
-    └── plugin.wasm      # Compiled WASM component
-```
-
 ## WIT Interface Design
 
 The plugin demonstrates complex record types with optional fields:
@@ -210,29 +124,9 @@ world amadeus-flight-component {
 }
 ```
 
-## Troubleshooting
+## Historical response example
 
-### OAuth2 Token Refresh
-The plugin automatically refreshes OAuth2 tokens before they expire. If you see authentication errors, check your API credentials.
-
-### Date Validation
-Ensure departure dates are in the future. The API returns error 425 "INVALID DATE" for past dates.
-
-### Environment Variables
-All three environment variables are required:
-- `AMADEUS_HOST` (e.g., `test.api.amadeus.com`)
-- `AMADEUS_API_KEY`
-- `AMADEUS_API_SECRET`
-
-## Key Learnings
-
-1. **WASI HTTP POST**: Proper implementation of POST requests with body in WASI requires careful resource management
-2. **OAuth2 in WASM**: Token management works seamlessly with proper POST implementation
-3. **Complex Types**: WAVE syntax enables passing complex records to WASM functions
-4. **Environment Config**: Full configurability without hardcoded values
-5. **Resource Cleanup**: Proper order of operations for WASI resource dropping
-
-## API Response Example
+This sample illustrates the old Self-Service response shape. It is not live flight data.
 
 ```json
 {
@@ -274,13 +168,3 @@ All three environment variables are required:
   ]
 }
 ```
-
-## Notes
-
-- **Free API Access**: Register at [https://developers.amadeus.com/](https://developers.amadeus.com/) for free test environment access
-- **Test vs Production**: Use test.api.amadeus.com for development (free tier, lower rate limits)
-- **Token Expiry**: OAuth2 tokens expire after 30 minutes and are automatically refreshed
-- **WASI Limitations**: This implementation works around WASI HTTP limitations through proper resource management
-- **Performance**: Compiled WASM size is optimized to ~368K with TinyGo
-
-This example demonstrates production-ready patterns for complex API integration within the WebAssembly Component Model ecosystem.
