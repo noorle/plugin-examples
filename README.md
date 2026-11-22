@@ -78,18 +78,8 @@ Real-time currency conversion and exchange rate information.
 - Automatic fallback to secondary API if primary fails
 - No API key required - uses free currency data sources
 
-### ✈️ Amadeus Flight Plugin
-Search for flight offers and travel information using the Amadeus API.
-
-**Available in:**
-- [**Go**](go/amadeus-flight/) - TinyGo implementation demonstrating complex non-primitive record type inputs
-
-**Features:**
-- Search for flight offers between cities
-- Accepts complex search parameters (origin, destination, dates, passengers)
-- Demonstrates handling of nested input structures in WASI components
-- Secure API credential management via environment variables
-- Returns detailed flight information including prices and segments
+### ✈️ Amadeus Flight Plugin (historical)
+[**Go**](go/amadeus-flight/) · A TinyGo example of OAuth 2.0 client credentials, WASI HTTP POST, and structured WIT inputs. Amadeus retired Self-Service, so this is a code reference, not a runnable flight-search quickstart.
 
 ### 📚 ArXiv Plugin
 Search and download academic papers from arXiv repository.
