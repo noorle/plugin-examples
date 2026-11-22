@@ -92,35 +92,37 @@ export async function checkWeather(location: string, unit: string): Promise<stri
 ## Development & Testing
 
 ### Build and Deploy
+
+Get an API key from [OpenWeatherMap](https://openweathermap.org/api). Keep real keys out of the project-root `.env`: `noorle plugin build` includes that file in the `.npack` if it exists. If you previously built with a real key there, move the file out of the project, rebuild, and do not upload or share the old archive. Rotate the key if you already uploaded or shared an archive containing it.
+
 ```bash
 # Build the plugin (creates WASM component)
 noorle plugin build
 
-# Deploy to Noorle platform
+# Sign in to Noorle
+noorle login
+
+# Deploy the freshly built archive
 noorle plugin deploy
 ```
 
+Check that the archive path printed by the build is the only `.npack` in `dist/` before deploying; the CLI picks the first archive it finds there. You can inspect its contents with `tar -tzf`, passing the printed archive path. The archive should not contain `.env` for this example.
+
+After publishing, open **Portal → Plugins → your plugin → Versions → Edit configuration → Environment variables**. Set the write-only value for `OPENWEATHER_API_KEY` and save before invoking the hosted plugin. The `noorle.yaml` allowlist lets the guest read the key; it does not set its value.
+
 ### Local Testing with wasmtime
+
+Load `OPENWEATHER_API_KEY` into your shell from your secret manager before running these examples. Do not put it in the plugin directory or paste its value into the command.
+
 ```bash
 # Test with metric units
-wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_api_key_here \
+wasmtime run --wasi http --env "OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY" \
   --invoke 'check-weather("Austin", "metric")' dist/plugin.wasm
 
 # Test with imperial units
-wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_api_key_here \
+wasmtime run --wasi http --env "OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY" \
   --invoke 'check-weather("Austin", "imperial")' dist/plugin.wasm
 ```
-
-### Environment Setup
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Add your OpenWeatherMap API key
-echo "OPENWEATHER_API_KEY=your_actual_api_key" > .env
-```
-
-Get your API key from [OpenWeatherMap](https://openweathermap.org/api).
 
 ## Project Structure
 
@@ -166,7 +168,7 @@ Fetches current weather information for a specified location.
 - `unit`: Temperature unit - "metric" (Celsius) or "imperial" (Fahrenheit)
 
 **Returns:**
-JSON string containing weather data or error:
+At the WIT boundary, both success and failure return a JSON-encoded `string`. The TypeScript implementation is asynchronous (`Promise<string>`), but there is no separate WIT `result` variant. A failure puts its message in the `error` field.
 
 Success:
 ```json

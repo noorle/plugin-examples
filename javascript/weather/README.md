@@ -64,9 +64,9 @@ async function getWeather(apiKey, params) {
 export async function checkWeather(location, unit) {
   try {
     const weather = await getWeather(apiKey, params);
-    return { ok: JSON.stringify(weather.toJSON()) };
+    return JSON.stringify(weather.toJSON());
   } catch (error) {
-    return { err: error.message };
+    return JSON.stringify({ error: error.message });
   }
 }
 ```
@@ -81,35 +81,37 @@ export async function checkWeather(location, unit) {
 ## Development & Testing
 
 ### Build and Deploy
+
+Get an API key from [OpenWeatherMap](https://openweathermap.org/api). Keep real keys out of the project-root `.env`: `noorle plugin build` includes that file in the `.npack` if it exists. If you previously built with a real key there, move the file out of the project, rebuild, and do not upload or share the old archive. Rotate the key if you already uploaded or shared an archive containing it.
+
 ```bash
 # Build the plugin (creates WASM component)
 noorle plugin build
 
-# Deploy to Noorle platform
+# Sign in to Noorle
+noorle login
+
+# Deploy the freshly built archive
 noorle plugin deploy
 ```
 
+Check that the archive path printed by the build is the only `.npack` in `dist/` before deploying; the CLI picks the first archive it finds there. You can inspect its contents with `tar -tzf`, passing the printed archive path. The archive should not contain `.env` for this example.
+
+After publishing, open **Portal → Plugins → your plugin → Versions → Edit configuration → Environment variables**. Set the write-only value for `OPENWEATHER_API_KEY` and save before invoking the hosted plugin. The `noorle.yaml` allowlist lets the guest read the key; it does not set its value.
+
 ### Local Testing with wasmtime
+
+Load `OPENWEATHER_API_KEY` into your shell from your secret manager before running these examples. Do not put it in the plugin directory or paste its value into the command.
+
 ```bash
 # Test with metric units
-wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_api_key_here \
+wasmtime run --wasi http --env "OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY" \
   --invoke 'check-weather("Austin", "metric")' dist/plugin.wasm
 
 # Test with imperial units
-wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_api_key_here \
+wasmtime run --wasi http --env "OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY" \
   --invoke 'check-weather("Austin", "imperial")' dist/plugin.wasm
 ```
-
-### Environment Setup
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Add your OpenWeatherMap API key
-echo "OPENWEATHER_API_KEY=your_actual_api_key" > .env
-```
-
-Get your API key from [OpenWeatherMap](https://openweathermap.org/api).
 
 ## Project Structure
 
@@ -140,7 +142,7 @@ weather/
 
 ## API Reference
 
-### `check-weather(location: string, unit: string) -> result<string, string>`
+### `check-weather(location: string, unit: string) -> string`
 
 Fetches current weather information for a specified location.
 
@@ -163,7 +165,7 @@ Success: JSON string containing weather data:
 }
 ```
 
-Error: String describing what went wrong
+Error: JSON string containing an `error` field, for example `{"error":"Weather lookup failed"}`.
 
 ## Learning Outcomes
 
@@ -172,7 +174,7 @@ By studying this example, developers learn:
 1. **JavaScript in WASM**: How to use modern JavaScript in WASM components
 2. **Fetch API Patterns**: Making HTTP requests from sandboxed environments
 3. **Environment Configuration**: Secure handling of API keys and configuration
-4. **Error Handling**: Using Result types in JavaScript for robust error management
+4. **Error Handling**: Returning JSON error objects through a WIT string
 5. **Component Development**: Building reusable WASM components with JavaScript
 
 This example serves as a foundation for building any plugin that needs external API integration, from weather services to database connectors to AI model APIs.

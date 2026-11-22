@@ -78,18 +78,8 @@ Real-time currency conversion and exchange rate information.
 - Automatic fallback to secondary API if primary fails
 - No API key required - uses free currency data sources
 
-### ✈️ Amadeus Flight Plugin
-Search for flight offers and travel information using the Amadeus API.
-
-**Available in:**
-- [**Go**](go/amadeus-flight/) - TinyGo implementation demonstrating complex non-primitive record type inputs
-
-**Features:**
-- Search for flight offers between cities
-- Accepts complex search parameters (origin, destination, dates, passengers)
-- Demonstrates handling of nested input structures in WASI components
-- Secure API credential management via environment variables
-- Returns detailed flight information including prices and segments
+### ✈️ Amadeus Flight Plugin (historical)
+[**Go**](go/amadeus-flight/) · A TinyGo example of OAuth 2.0 client credentials, WASI HTTP POST, and structured WIT inputs. Amadeus retired Self-Service, so this is a code reference, not a runnable flight-search quickstart.
 
 ### 📚 ArXiv Plugin
 Search and download academic papers from arXiv repository.
@@ -199,11 +189,7 @@ The `prepare` command runs the template's `prepare.sh` script which:
 - Configures your environment for WASM development
 - Ensures consistent tooling across all templates
 
-4. Configure environment variables (if needed):
-```bash
-cp .env.example .env
-# Add your API key to .env
-```
+4. Keep real API keys out of the project-root `.env`. The CLI packages that file when present. For the weather example, load `OPENWEATHER_API_KEY` into your shell from your secret manager for local testing, and configure it separately in the Portal for hosted use.
 
 5. Build the plugin:
 ```bash
@@ -219,7 +205,7 @@ This runs the template's `build.sh` script which:
 6. Test locally:
 ```bash
 # Example for rust weather plugin (Rust version)
-wasmtime run --wasi http --env OPENWEATHER_API_KEY=your_key \
+wasmtime run --wasi http --env "OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY" \
   --invoke 'check-weather("Austin", metric)' dist/plugin.wasm
 ```
 
@@ -234,6 +220,8 @@ noorle plugin deploy
 # Or build and deploy in one step
 noorle plugin publish
 ```
+
+For the weather example, upload only a freshly built archive that does not contain `.env`. After publishing, set `OPENWEATHER_API_KEY` in **Portal → Plugins → your plugin → Versions → Edit configuration → Environment variables** before invoking it. See the [weather README](rust/weather/) for how to check the archive and replace a key previously packaged and shared.
 
 ## Noorle CLI Workflow
 
